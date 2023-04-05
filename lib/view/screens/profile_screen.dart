@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:tiktok_clone/controller/auth_controller.dart';
 import 'package:tiktok_clone/controller/profile_controller.dart';
 import 'package:get/get.dart';
+import 'package:tiktok_clone/view/widgets/tiktok_videoplayer.dart';
+
+import 'home.dart';
 
 class ProfileScreen extends StatefulWidget {
   String uid;
@@ -38,169 +41,175 @@ class _ProfileScreenState extends State<ProfileScreen> {
               icon: Icon(Icons.info_outline))
         ],
       ),
-      body: GetBuilder<ProfileController>(
-          init: ProfileController(),
-          builder: (controller) {
-            return controller.user.isEmpty
-                ? Center(child: CircularProgressIndicator())
-                : SingleChildScrollView(
-                    child: SafeArea(
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: 40,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              ClipOval(
-                                child: CachedNetworkImage(
-                                  imageUrl: controller.user['profilePic'],
-                                  height: 100,
-                                  width: 100,
-                                  fit: BoxFit.cover,
-                                  placeholder: (context, url) =>
-                                      CircularProgressIndicator(),
-                                  errorWidget: (context, url, error) =>
-                                      Icon(Icons.error),
+      body: WillPopScope(
+        onWillPop: () async {
+          Get.off(HomeScreen());
+          return true;
+        },
+        child: GetBuilder<ProfileController>(
+            init: ProfileController(),
+            builder: (controller) {
+              return controller.user.isEmpty
+                  ? Center(child: CircularProgressIndicator())
+                  : SingleChildScrollView(
+                      child: SafeArea(
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 40,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                ClipOval(
+                                  child: CachedNetworkImage(
+                                    imageUrl: controller.user['profilePic'],
+                                    height: 100,
+                                    width: 100,
+                                    fit: BoxFit.cover,
+                                    placeholder: (context, url) =>
+                                        CircularProgressIndicator(),
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
+                                  ),
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(controller.user['followers'],
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w700)),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text(
+                                      "Followers",
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                  ],
                                 ),
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(controller.user['followers'],
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(controller.user['following'],
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w700)),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text(
+                                      "Followings",
                                       style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w700)),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(
-                                    "Followers",
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(controller.user['following'],
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  width: 25,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(controller.user['likes'],
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w700)),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text(
+                                      "Likes",
                                       style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w700)),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(
-                                    "Followings",
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                width: 25,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(controller.user['likes'],
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w700)),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(
-                                    "Likes",
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 35,
-                          ),
-                          InkWell(
-                            onTap: () {
-                              widget.uid ==
-                                      FirebaseAuth.instance.currentUser!.uid
-                                  ? authController.signOut()
-                                  : controller.followUser();
-                            },
-                            child: Container(
-                              width: 150,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: Colors.white60, width: 0.6),
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Center(
-                                child: Text(widget.uid ==
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 35,
+                            ),
+                            InkWell(
+                              onTap: () {
+                                widget.uid ==
                                         FirebaseAuth.instance.currentUser!.uid
-                                    ? "Sign Out"
-                                    : controller.user['isFollowing']
-                                        ? 'Following'
-                                        : 'Follow'),
+                                    ? authController.signOut()
+                                    : controller.followUser();
+                              },
+                              child: Container(
+                                width: 150,
+                                height: 50,
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: Colors.white60, width: 0.6),
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: Center(
+                                  child: Text(widget.uid ==
+                                          FirebaseAuth.instance.currentUser!.uid
+                                      ? "Sign Out"
+                                      : controller.user['isFollowing']
+                                          ? 'Following'
+                                          : 'Follow'),
+                                ),
                               ),
                             ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Divider(
-                            indent: 30,
-                            endIndent: 30,
-                            thickness: 2,
-                          ),
-                          SizedBox(
-                            height: 59,
-                          ),
-                          GridView.builder(
-                            physics: NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2,
-                                    childAspectRatio: 1,
-                                    crossAxisSpacing: 5),
-                            itemBuilder: (context, index) {
-                              String thumbnail =
-                                  controller.user['thumbnails'][index];
-                              return CachedNetworkImage(
-                                fit: BoxFit.cover,
-                                imageUrl: thumbnail,
-                                errorWidget: ((context, url, error) =>
-                                    Icon(Icons.error)),
-                              );
-                            },
-                            itemCount: controller.user['thumbnails'].length,
-                          ),
-                        ],
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Divider(
+                              indent: 30,
+                              endIndent: 30,
+                              thickness: 2,
+                            ),
+                            SizedBox(
+                              height: 59,
+                            ),
+                            GridView.builder(
+                              physics: NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2,
+                                      childAspectRatio: 1,
+                                      crossAxisSpacing: 5),
+                              itemBuilder: (context, index) {
+                                String thumbnail =
+                                    controller.user['thumbnails'][index];
+                                return CachedNetworkImage(
+                                  fit: BoxFit.cover,
+                                  imageUrl: thumbnail,
+                                  errorWidget: ((context, url, error) =>
+                                      Icon(Icons.error)),
+                                );
+                              },
+                              itemCount: controller.user['thumbnails'].length,
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  );
-          }),
+                    );
+            }),
+      ),
     );
   }
 }

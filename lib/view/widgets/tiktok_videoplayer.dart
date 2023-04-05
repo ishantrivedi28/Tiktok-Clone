@@ -11,7 +11,6 @@ class TikTokVideoPlayer extends StatefulWidget {
 
 class _TikTokVideoPlayerState extends State<TikTokVideoPlayer> {
   late VideoPlayerController videoPlayerController;
-
   @override
   void initState() {
     // TODO: implement initState
@@ -19,6 +18,7 @@ class _TikTokVideoPlayerState extends State<TikTokVideoPlayer> {
     videoPlayerController = VideoPlayerController.network(widget.videoUrl)
       ..initialize().then((value) {
         videoPlayerController.play();
+
         videoPlayerController.setLooping(true);
       });
   }
@@ -26,6 +26,7 @@ class _TikTokVideoPlayerState extends State<TikTokVideoPlayer> {
   @override
   void dispose() {
     // TODO: implement dispose
+
     super.dispose();
     videoPlayerController.dispose();
   }

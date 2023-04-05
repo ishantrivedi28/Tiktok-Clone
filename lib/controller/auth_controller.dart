@@ -13,6 +13,7 @@ import 'package:tiktok_clone/view/screens/home.dart';
 class AuthController extends GetxController {
   static AuthController instance = Get.find();
   File? proimg;
+
   pickImage() async {
     final image = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (image == null) return;
@@ -62,7 +63,8 @@ class AuthController extends GetxController {
             .doc(credential.user!.uid)
             .set(user.toJson());
       } else {
-        Get.snackbar("Error Occurred", "Please enter all the fields");
+        Get.snackbar("Error Occurred",
+            "Please enter all the fields including Profile Image");
       }
     } catch (e) {
       print(e);

@@ -2,11 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:tiktok_clone/controller/auth_controller.dart';
 import 'package:tiktok_clone/model/video.dart';
+import 'package:video_player/video_player.dart';
 
 class VideoController extends GetxController {
   final Rx<List<Video>> _videoList = Rx<List<Video>>([]);
+  Rx<bool> isPlaying = Rx<bool>(true);
 
   List<Video> get videoList => _videoList.value;
+  late VideoPlayerController videoPlayerController;
 
   @override
   void onInit() {
@@ -20,6 +23,7 @@ class VideoController extends GetxController {
       }
       return retVal;
     }));
+
     super.onInit();
   }
 

@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Tiktok Clone',
         theme:
             ThemeData.dark().copyWith(scaffoldBackgroundColor: backgroundColor),

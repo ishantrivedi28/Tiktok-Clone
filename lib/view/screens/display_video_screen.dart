@@ -6,6 +6,7 @@ import 'package:tiktok_clone/controller/video_controller.dart';
 import 'package:tiktok_clone/view/screens/comment_screen.dart';
 import 'package:tiktok_clone/view/screens/profile_screen.dart';
 import 'package:tiktok_clone/view/widgets/album_rotator.dart';
+import 'package:video_player/video_player.dart';
 import '../widgets/profile_button.dart';
 import '../widgets/tiktok_videoplayer.dart';
 
@@ -29,6 +30,7 @@ class DisplayVideoScreen extends StatelessWidget {
         itemBuilder: (context, index) {
           final videoDat = videoController.videoList[index];
           return InkWell(
+            // onTap: ,
             onDoubleTap: () => videoController.likedVideo(videoDat.id),
             child: Stack(
               children: [
@@ -71,7 +73,7 @@ class DisplayVideoScreen extends StatelessWidget {
                       children: [
                         InkWell(
                             onTap: () {
-                              Get.to(ProfileScreen(uid: videoDat.uid));
+                              Get.off(ProfileScreen(uid: videoDat.uid));
                             },
                             child: ProfileButton(
                                 profilePhotoUrl: videoDat.profilePic)),
@@ -115,9 +117,13 @@ class DisplayVideoScreen extends StatelessWidget {
                           ),
                         ),
                         InkWell(
-                          onTap: () => Get.to(CommentScreen(
-                            id: videoDat.id,
-                          )),
+                          onTap: () {
+                            print("abeeeeeeeeeeeeeeeeeeeeee");
+
+                            Get.off(CommentScreen(
+                              id: videoDat.id,
+                            ));
+                          },
                           child: Column(
                             children: [
                               Icon(

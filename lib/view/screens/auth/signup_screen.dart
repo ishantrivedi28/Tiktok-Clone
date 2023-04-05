@@ -3,10 +3,18 @@ import 'package:tiktok_clone/controller/auth_controller.dart';
 import 'package:tiktok_clone/view/widgets/glitch_effect.dart';
 import 'package:tiktok_clone/view/widgets/text_input.dart';
 
-class SignUpScreen extends StatelessWidget {
+class SignUpScreen extends StatefulWidget {
   SignUpScreen({super.key});
+
+  @override
+  State<SignUpScreen> createState() => _SignUpScreenState();
+}
+
+class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController _emailController = TextEditingController();
+
   TextEditingController _setpasswordController = TextEditingController();
+
   TextEditingController _nameController = TextEditingController();
 
   TextEditingController _confirmpasswordController = TextEditingController();
@@ -34,14 +42,21 @@ class SignUpScreen extends StatelessWidget {
               Stack(
                 children: [
                   InkWell(
-                    onTap: () {
-                      AuthController.instance.pickImage();
+                    onTap: () async {
+                      await AuthController.instance.pickImage();
+                      setState(() {});
                     },
-                    child: const CircleAvatar(
-                      backgroundImage: NetworkImage(
-                          "https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg"),
-                      radius: 60,
-                    ),
+                    child: AuthController.instance.proimg == null
+                        ? CircleAvatar(
+                            backgroundImage: NetworkImage(
+                                "https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg"),
+                            radius: 60,
+                          )
+                        : CircleAvatar(
+                            radius: 60,
+                            backgroundImage:
+                                FileImage(AuthController.instance.proimg!),
+                          ),
                   ),
                   Positioned(
                     bottom: 0,
